@@ -1,11 +1,7 @@
 import discord
 from google import genai
-from dotenv import load_dotenv
 import os
 import re
-
-# Load environment variables
-load_dotenv('abc.env')
 
 # Set up the bot client with the correct intents
 intents = discord.Intents.default()
@@ -13,11 +9,11 @@ intents.message_content = True  # Allow the bot to read message content
 client = discord.Client(intents=intents)
 
 # Get the environment variables
-DISCORD_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
+DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
-if not DISCORD_TOKEN or not GEMINI_API_KEY:
-    print("Error: Missing required tokens in .env file.")
+if not DISCORD_BOT_TOKEN or not GEMINI_API_KEY:
+    print("Error: Missing required tokens in environment variables.")
     exit()
 
 # Initialize the Gemini client
@@ -56,7 +52,7 @@ async def on_message(message):
                     await message.reply("⚠️ Invalid format. Use `!configure <channel_id>` or mention a channel like `!configure #general`.")
                     return
                 
-                await message.reply(f"✅ Bot is now configured to work only in <#{allowed_channel_id}>")
+                await message.reply(f"✅ Mastixia will reply only in <#{allowed_channel_id}>")
             else:
                 await message.reply("⚠️ Invalid command format. Use `!configure <channel_id>` or mention a channel like `!configure #general`.")
         elif command_parts[0] == "!projectabout":
@@ -98,4 +94,4 @@ async def on_message(message):
         print(f"Error: {e}")
 
 # Run the bot
-client.run(DISCORD_TOKEN)
+client.run(DISCORD_BOT_TOKEN)
